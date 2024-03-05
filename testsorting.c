@@ -11,7 +11,7 @@
 // your grou (in the format 20221234). If you don't use the correct code, the correction
 // of your project will be impossible.
 
-const int studentcode = 123456;
+const int studentcode = 20211757 + 20221594; //S211757 + S221594
 
 static void swap_int(void *array, size_t i, size_t j);
 static int compare_int(const void *array, size_t i, size_t j);
