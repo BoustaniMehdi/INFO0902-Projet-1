@@ -13,6 +13,10 @@
 
 const int studentcode = 20211757 + 20221594; //S211757 + S221594
 
+
+// unsigned int nbComp = 0; // Global variable to count number of comparaisons
+
+
 static void swap_int(void *array, size_t i, size_t j);
 static int compare_int(const void *array, size_t i, size_t j);
 
@@ -25,6 +29,7 @@ static void swap_int(void *array, size_t i, size_t j)
 
 static int compare_int(const void *array, size_t i, size_t j)
 {
+	// nbComp ++; // Incrementation 
 	return (((int *)array)[i] - ((int *)array)[j]);
 }
 
@@ -87,6 +92,6 @@ int main(int argc, char *argv[])
 		printf("\n");
 	}
 	printf("CPU time: %f\n", (double)(end - start) / (double)CLOCKS_PER_SEC);
-
+	// printf("Number of comparaison : %d\n", nbComp); // print
 	free(array);
 }
