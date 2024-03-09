@@ -11,11 +11,10 @@
 // your grou (in the format 20221234). If you don't use the correct code, the correction
 // of your project will be impossible.
 
+// const int studentcode = 123456;
 const int studentcode = 20211757 + 20221594; //S211757 + S221594
 
-
 // unsigned int nbComp = 0; // Global variable to count number of comparaisons
-
 
 static void swap_int(void *array, size_t i, size_t j);
 static int compare_int(const void *array, size_t i, size_t j);
@@ -23,13 +22,13 @@ static int compare_int(const void *array, size_t i, size_t j);
 static void swap_int(void *array, size_t i, size_t j)
 {
 	int temp = ((int *)array)[i];
-	((int *)array)[i] = ((int *)array)[j];
+	((int *)array)[i] = ((int *)array)[j]; 
 	((int *)array)[j] = temp;
 }
 
 static int compare_int(const void *array, size_t i, size_t j)
 {
-	// nbComp ++; // Incrementation 
+	// nbComp ++; INCREMENTATION of nbComp
 	return (((int *)array)[i] - ((int *)array)[j]);
 }
 
@@ -56,6 +55,8 @@ int main(int argc, char *argv[])
 	int *array = malloc(n * sizeof(int));
 
 	for (size_t i = 0; i < n; i++)
+		// array[i] = i + 1; // croissant
+		// array[i] = n - i; // decroissant
 		array[i] = rand() % (n * 10) - (n * 10) / 2;
 
 	printf("Sorting a random array of size %zu with algorithm %zu", n, algo);
@@ -92,6 +93,6 @@ int main(int argc, char *argv[])
 		printf("\n");
 	}
 	printf("CPU time: %f\n", (double)(end - start) / (double)CLOCKS_PER_SEC);
-	// printf("Number of comparaison : %d\n", nbComp); // print
+	// printf("Number of comparaison : %d\n", nbComp); // print number of comparaisons on screen
 	free(array);
 }
