@@ -4,6 +4,17 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+
+
+typedef struct {
+    int key;
+    void *value;
+}Element;
+
+
+
+
+
 /**
  * @brief Return true if the sorting algorithm identified by the first argument
  *        is stable for the given array of integers.
