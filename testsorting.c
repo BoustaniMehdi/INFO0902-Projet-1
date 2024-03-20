@@ -15,7 +15,7 @@
 // const int studentcode = 123456;
 const int studentcode = 20211757 + 20221594; //S211757 + S221594
 
-// unsigned int nbComp = 0; // Global variable to count number of comparaisons
+// long long int nbComp = 0; // Global variable to count number of comparaisons
 
 
 int *indices;
@@ -139,5 +139,16 @@ int main(int argc, char *argv[])
 	}
 	printf("CPU time: %f\n", (double)(end - start) / (double)CLOCKS_PER_SEC);
 	// printf("Number of comparaison : %d\n", nbComp); // print number of comparaisons on screen
+
+	//printf("Number of comparaison : %lld\n", nbComp); // print number of comparaisons on screen
+	//FILE *file = fopen("file.txt", "a");
+    //if (file == NULL)
+    //{
+    //    fprintf(stderr, "Error opening file.\n");
+    //    exit(EXIT_FAILURE);
+    //}
+	//
+    //fprintf(file, "%lld\n", nbComp);
+    //fclose(file);
 	free(array);
 }
