@@ -6,29 +6,55 @@
 #include <string.h>
 
 
+// --------------------------------------- GLOBAL VARIABLES ---------------------------------------------------- //
 
 
-// static void global_swap(void *array, size_t i, size_t j);
-// static int global_compare(const void *array, size_t i, size_t j);
+static int (*compare_stablesort)(const void *array, size_t i, size_t j);
+static void (*swap_stablesort)(void *array, size_t i, size_t j);
+static int *global_array;
 
-// static int *indices;
+// --------------------------------------- GLOBAL VARIABLES ---------------------------------------------------- //
 
+
+// -------------------------------------------- stableSort  ------------------------------------------------- //
+
+
+static int compare_new(const void *array, size_t i, size_t j){
+    int compare = compare_stablesort(array, i, j);
+    return compare;
+
+}
+
+static void swap_new(void *array, size_t i, size_t j) {
+    swap_stablesort(global_array, i, j);
+}
+
+
+void stableSort(size_t algo, void *array, size_t length,
+                int (*compare)(const void *, size_t i, size_t j),
+                void (*swap)(void *array, size_t i, size_t j))
+{
+
+   compare_stablesort = compare;
+   swap_stablesort = swap;
+   global_array = array;
+
+   sort(algo, array, length, compare_new, swap_new);
+
+
+}
+
+
+// -------------------------------------------- stableSort  ------------------------------------------------- //
+
+
+
+
+// ----------------------------------------- isSortStable --------------------------------------------------- //
 
 static Element **create_element_array(const int *array, size_t length);
-
 static void swap_element(void *array, size_t i, size_t j);
-
-
-// static int compare_int_stable(const void *array, size_t i, size_t j);
-
-// -------------------------------- COMPARE FUNCTIONS ---------------------------------------------- //
-
 static int compare_int(const void *array, size_t i, size_t j);
-// static int compare_char(const void *array, size_t i, size_t j);
-
-// -------------------------------- COMPARE FUNCTIONS ---------------------------------------------- //
-
-
 
 
 static Element **create_element_array(const int *array, size_t length){
@@ -58,7 +84,6 @@ static void swap_element(void *array, size_t i, size_t j)
     elements[j] = temp;
 }
 
-// -------------------------------- COMPARE FUNCTIONS ---------------------------------------------- //
 
 static int compare_int(const void *array, size_t i, size_t j)
 {
@@ -68,8 +93,6 @@ static int compare_int(const void *array, size_t i, size_t j)
     return ( *((int *)e1->value) - *((int *)e2->value));
 }
 
-
-// -------------------------------- COMPARE FUNCTIONS ---------------------------------------------- //
 
 static void destroy_array(Element **elements, size_t length){
     for (size_t i = 0; i < length; i++){
@@ -88,12 +111,7 @@ bool isSortStable(size_t algo, const int *array, size_t length)
     }
     sort(algo, newArray, length, compare_int, swap_element);
 
-    // printf("newArray ordered : \n");
-    // for (size_t i = 0; i < length ; i++){
-    //     printf("%d ", *((int *)newArray[i]->value));
-    //  }
-    //  printf("\n\n");
-
+   
     for (size_t i = 0; i < length-1; i++){
         if (!compare_int(newArray, i, i+1) && newArray[i]->key > newArray[i+1]->key){
             destroy_array(newArray, length);
@@ -104,43 +122,5 @@ bool isSortStable(size_t algo, const int *array, size_t length)
     return true;
 }
 
-
-// static int compare_int_stable(const void *array, size_t i, size_t j)
-// {
-//     const Element **elements = (const Element **)array;
-//     const Element *e1 = elements[i];
-//     const Element *e2 = elements[j];
-//     if (  *((int *)e1->value) - *((int *)e2->value) == 0){
-//         return (e1->key - e2->key);
-//     }
-//     return ( *((int *)e1->value) - *((int *)e2->value));
-// }
-
-
-
-void stableSort(size_t algo, void *array, size_t length,
-                int (*compare)(const void *, size_t i, size_t j),
-                void (*swap)(void *array, size_t i, size_t j))
-{
-
-    // A modifier/compléter
-    // indices = malloc(length * sizeof(int));
-    // for (size_t i = 0; i < length; i++){
-    //     indices[i] = i;
-    // }
-    void **arr = (void**)&array;
-    
-
-    Element **newArray = create_element_array(array, length);
-    if (!newArray){
-        return;
-    }
-    sort(algo, newArray, length, compare, swap);
-
-
-    destroy_array(newArray, length);
-
-}
-
-
+// ----------------------------------------- isSortStable --------------------------------------------------- //
 
