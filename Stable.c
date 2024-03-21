@@ -3,51 +3,24 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdio.h>
-#include <string.h>
 
+
+
+
+typedef struct {
+    int key;
+    void *value;
+}Element;
 
 // --------------------------------------- GLOBAL VARIABLES ---------------------------------------------------- //
 
 
 static int (*compare_stablesort)(const void *array, size_t i, size_t j);
 static void (*swap_stablesort)(void *array, size_t i, size_t j);
-static int *global_array;
+static void *global_array;
+static Element **element_array;
 
 // --------------------------------------- GLOBAL VARIABLES ---------------------------------------------------- //
-
-
-// -------------------------------------------- stableSort  ------------------------------------------------- //
-
-
-static int compare_new(const void *array, size_t i, size_t j){
-    int compare = compare_stablesort(array, i, j);
-    return compare;
-
-}
-
-static void swap_new(void *array, size_t i, size_t j) {
-    swap_stablesort(global_array, i, j);
-}
-
-
-void stableSort(size_t algo, void *array, size_t length,
-                int (*compare)(const void *, size_t i, size_t j),
-                void (*swap)(void *array, size_t i, size_t j))
-{
-
-   compare_stablesort = compare;
-   swap_stablesort = swap;
-   global_array = array;
-
-   sort(algo, array, length, compare_new, swap_new);
-
-
-}
-
-
-// -------------------------------------------- stableSort  ------------------------------------------------- //
-
-
 
 
 // ----------------------------------------- isSortStable --------------------------------------------------- //
@@ -59,22 +32,20 @@ static int compare_int(const void *array, size_t i, size_t j);
 
 static Element **create_element_array(const int *array, size_t length){
 
-    Element** newArray = malloc(length * sizeof(Element*));
+    element_array= malloc(length * sizeof(Element*));
     for (size_t i = 0; i < length; i++){
-        newArray[i] = malloc(sizeof(Element));
-        if (!newArray[i]){
+        element_array[i] = malloc(sizeof(Element));
+        if (!element_array[i]){
             for (size_t j = 0; j < i; j++){
-                free(newArray[j]);
+                free(element_array[j]);
             }
-            printf("Error allocating memory\n");
             return NULL;
         }
-        newArray[i]->key = i;
-        newArray[i]->value = (void *)&array[i];
+        element_array[i]->key = i;
+        element_array[i]->value = (void *)&array[i];
     }
-    return newArray;    
+    return element_array;    
 }
-
 
 static void swap_element(void *array, size_t i, size_t j)
 {
@@ -122,5 +93,45 @@ bool isSortStable(size_t algo, const int *array, size_t length)
     return true;
 }
 
-// ----------------------------------------- isSortStable --------------------------------------------------- //
 
+// ------------------------------------------- //
+
+
+static int compare_new(const void *array, size_t i, size_t j){
+    int compare = compare_stablesort(array, i, j);
+    if (compare == 0){
+        return element_array[i]->key - element_array[j]->key;
+    }
+    return compare;
+
+}
+
+static void swap_new(void *array, size_t i, size_t j) {
+    swap_stablesort(array, i, j);
+ 
+    Element *temp = element_array[i];
+    element_array[i] = element_array[j];
+    element_array[j] = temp;
+    
+}
+
+void stableSort(size_t algo, void *array, size_t length,
+                int (*compare)(const void *, size_t i, size_t j),
+                void (*swap)(void *array, size_t i, size_t j))
+{
+
+   compare_stablesort = compare;
+   swap_stablesort = swap;
+   global_array = array;
+   element_array = create_element_array(array, length);
+   if (!element_array){
+    return;
+   }
+
+   sort(algo, array, length, compare_new, swap_new);
+   destroy_array(element_array, length);
+
+
+}
+
+// ----------------------------------------- isSortStable --------------------------------------------------- //
