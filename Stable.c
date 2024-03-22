@@ -4,9 +4,6 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-
-
-
 typedef struct {
     int key;
     void *value;
