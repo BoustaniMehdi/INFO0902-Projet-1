@@ -1,9 +1,14 @@
+/*
+* Auteurs : ALBASHITYALSHAIER Abdelkader S211757 -- BOUSTANI Mehdi  S221594
+* Projet 1: Algorithmes de tri -- Structure de données et algorithmes
+* const int studentcode = 20211757 + 20221594 (Matricules utilisés dans les tests)
+*/
+ 
 #include "Stable.h"
 #include "Sort.h"
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdio.h>
-
 
 // Element structure to store elements as key-values entites
 typedef struct {
@@ -44,7 +49,7 @@ static Element **create_element_array(const int *array, size_t length){
         element_array[i]->value = (void *)&array[i];
     }
     return element_array;    
-}
+}//end create_element_array
 
 static void swap_element(void *array, size_t i, size_t j)
 {
@@ -101,7 +106,7 @@ static int compare_new(const void *array, size_t i, size_t j){
         return element_array[i]->key - element_array[j]->key;
     }
     return compare;
-}
+}//end compare_new
 
 static void swap_new(void *array, size_t i, size_t j) {
     swap_stablesort(array, i, j);
@@ -110,7 +115,7 @@ static void swap_new(void *array, size_t i, size_t j) {
     Element *temp = element_array[i];
     element_array[i] = element_array[j];
     element_array[j] = temp;
-}
+}//end swap_new
 
 void stableSort(size_t algo, void *array, size_t length,
                 int (*compare)(const void *, size_t i, size_t j),
@@ -128,5 +133,6 @@ void stableSort(size_t algo, void *array, size_t length,
 
    sort(algo, array, length, compare_new, swap_new);
    destroy_array(element_array, length);
-}
+}//end stableSort
+
 // ----------------------------------------- stableSort ---------------------------------------------------- //
