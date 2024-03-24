@@ -13,6 +13,7 @@
 
 const int studentcode = 20211757 + 20221594;
 
+
 static void swap_int(void *array, size_t i, size_t j);
 static int compare_int(const void *array, size_t i, size_t j);
 
@@ -24,7 +25,7 @@ static void swap_int(void *array, size_t i, size_t j)
 }
 
 static int compare_int(const void *array, size_t i, size_t j)
-{
+{	
 	return (((int *)array)[i] - ((int *)array)[j]);
 }
 
@@ -50,8 +51,10 @@ int main(int argc, char *argv[])
 
 	int *array = malloc(n * sizeof(int));
 
-	for (size_t i = 0; i < n; i++)
-		array[i] = rand() % (n * 10) - (n * 10) / 2;
+	for (size_t i = 0; i < n; i++){
+		array[i] = n - i; // decroissant
+		// array[i] = rand() % (n * 10) - (n * 10) / 2;
+	}
 
 	printf("Sorting a random array of size %zu with algorithm %zu", n, algo);
 	if (stable)
